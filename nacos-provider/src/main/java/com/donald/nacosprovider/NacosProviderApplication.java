@@ -1,6 +1,7 @@
 package com.donald.nacosprovider;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
@@ -35,4 +36,25 @@ public class NacosProviderApplication {
         }
     }
 
+    @RestController
+    class ConfigurationController {
+
+        @Value("${book.author:unknown}")
+        String bookAuthor;
+
+        @Value("${book.name:unknown}")
+        String bookName;
+
+        @Value("${book.category:unknown}")
+        String bookCategory;
+
+        @GetMapping("/config")
+        public String config() {
+            String sb = "bookAuthor=" + bookAuthor +
+                    "<br/>bookName=" + bookName +
+                    "<br/>bookCategory=" + bookCategory;
+            return sb;
+        }
+
+    }
 }
