@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.endpoint.event.RefreshEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,13 +49,30 @@ public class NacosProviderApplication {
         @Value("${book.category:unknown}")
         String bookCategory;
 
+        @Autowired
+        ApplicationContext applicationContext;
+
         @GetMapping("/config")
         public String config() {
-            String sb = "bookAuthor=" + bookAuthor +
+            return "bookAuthor=" + bookAuthor +
                     "<br/>bookName=" + bookName +
                     "<br/>bookCategory=" + bookCategory;
-            return sb;
         }
 
+        @GetMapping("/config2")
+        public String config2() {
+
+            return "env.get('book.category')=" + applicationContext.getEnvironment().getProperty("book.category", "unknown") +
+                    "<br/>env.get('book.author')=" + applicationContext.getEnvironment().getProperty("book.author", "unknown") +
+                    "<br/>bookAuthor=" + bookAuthor;
+        }
+
+        @GetMapping("/event")
+        public String event() {
+
+            applicationContext.publishEvent(new RefreshEvent(this, null, "just for test"));
+
+            return "send RefreshEvent";
+        }
     }
 }
