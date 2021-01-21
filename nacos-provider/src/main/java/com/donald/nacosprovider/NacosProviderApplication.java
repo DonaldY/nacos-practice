@@ -52,7 +52,7 @@ public class NacosProviderApplication {
         @Autowired
         ApplicationContext applicationContext;
 
-        @GetMapping("/config")
+        @GetMapping("/config1")
         public String config() {
             return "bookAuthor=" + bookAuthor +
                     "<br/>bookName=" + bookName +
