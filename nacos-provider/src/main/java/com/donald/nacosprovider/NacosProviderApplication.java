@@ -1,9 +1,11 @@
 package com.donald.nacosprovider;
 
+import com.donald.nacosprovider.config.BookProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.endpoint.event.RefreshEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,8 +37,17 @@ public class NacosProviderApplication {
             return "env.get('book.category')=" +
                     applicationContext.getEnvironment().getProperty("book.category", "unknown");
         }
+
+        @GetMapping("/event")
+        public String event() {
+
+            applicationContext.publishEvent(new RefreshEvent(this, null, "just for test"));
+
+            return "send RefreshEvent";
+        }
     }
 
+    @RefreshScope
     @RestController
     class ConfigurationController {
 
@@ -48,6 +59,9 @@ public class NacosProviderApplication {
 
         @Value("${book.category:unknown}")
         String bookCategory;
+
+        @Autowired
+        BookProperties bookProperties;
 
         @Autowired
         ApplicationContext applicationContext;
@@ -62,18 +76,23 @@ public class NacosProviderApplication {
         @GetMapping("/config2")
         public String config2() {
 
-            return "env.get('book.category')="
-                    + applicationContext.getEnvironment().getProperty("book.category", "unknown") +
-                    "<br/>env.get('book.author')="
-                    + applicationContext.getEnvironment().getProperty("book.author", "unknown");
+            return  "env.get('book.author')="
+                    + applicationContext.getEnvironment().getProperty("book.author", "unknown")
+                    + "<br/>env.get('book.name')="
+                    + applicationContext.getEnvironment().getProperty("book.name", "unknown")
+                    + "<br/>env.get('book.category')="
+                    + applicationContext.getEnvironment().getProperty("book.category", "unknown");
         }
 
-        @GetMapping("/event")
-        public String event() {
+        @GetMapping("/config3")
+        public String config3() {
 
-            applicationContext.publishEvent(new RefreshEvent(this, null, "just for test"));
+            return  "env.get('book.author')="
+                    + applicationContext.getEnvironment().getProperty("book.author", "unknown")
+                    + "<br/>bookAuthor=" + bookAuthor
+                    + "<br/>bookProperties="
+                    + bookProperties;
 
-            return "send RefreshEvent";
         }
     }
 }
