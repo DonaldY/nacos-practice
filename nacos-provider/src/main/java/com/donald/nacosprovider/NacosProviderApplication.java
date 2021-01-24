@@ -62,9 +62,10 @@ public class NacosProviderApplication {
         @GetMapping("/config2")
         public String config2() {
 
-            return "env.get('book.category')=" + applicationContext.getEnvironment().getProperty("book.category", "unknown") +
-                    "<br/>env.get('book.author')=" + applicationContext.getEnvironment().getProperty("book.author", "unknown") +
-                    "<br/>bookAuthor=" + bookAuthor;
+            return "env.get('book.category')="
+                    + applicationContext.getEnvironment().getProperty("book.category", "unknown") +
+                    "<br/>env.get('book.author')="
+                    + applicationContext.getEnvironment().getProperty("book.author", "unknown");
         }
 
         @GetMapping("/event")
