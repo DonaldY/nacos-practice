@@ -1,4 +1,4 @@
-package com.donald.nacosprovider;
+package com.donald.nacosprovider.event;
 
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.context.ApplicationListener;
