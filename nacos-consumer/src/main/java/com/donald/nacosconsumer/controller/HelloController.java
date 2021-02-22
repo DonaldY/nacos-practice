@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,4 +53,11 @@ class HelloController {
                         "/echo?name=nacos", String.class);
     }
 
+    @PostMapping("/hello/1")
+    public String hello1(@RequestBody Object o) {
+
+        System.out.println(o.toString());
+
+        return "123";
+    }
 }
