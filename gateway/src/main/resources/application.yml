@@ -1,0 +1,18 @@
+server:
+  port: 8882
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: limit_route
+          uri: http://127.0.0.1:8081
+          predicates:
+            - Path=/hello/**
+          filters:
+
+  application:
+    name: gateway
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
