@@ -3,12 +3,11 @@ package com.donald.nacosconsumer.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -53,11 +52,21 @@ class HelloController {
                         "/echo?name=nacos", String.class);
     }
 
-    @PostMapping("/hello/1")
-    public String hello1(@RequestBody Object o) {
+    @GetMapping("/hello/1")
+    public String hello1(HttpServletResponse response) {
+
+        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+
+        return "123";
+    }
+
+    @PostMapping("/hello/2")
+    public String hello2(@RequestBody Object o, HttpServletResponse response) {
 
         System.out.println(o.toString());
 
-        return "123";
+        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+
+        return "456";
     }
 }

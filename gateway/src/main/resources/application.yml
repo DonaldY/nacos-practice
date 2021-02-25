@@ -9,6 +9,13 @@ spring:
           predicates:
             - Path=/hello/**
           filters:
+            - name: CacheBodyFactory
+            - name: CustomResponseFilterFactory
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@ideKeyResolver}'
+                redis-rate-limiter.replenishRate: 1
+                redis-rate-limiter.burstCapacity: 3
 
   application:
     name: gateway
