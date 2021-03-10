@@ -69,4 +69,18 @@ class HelloController {
 
         return "456";
     }
+
+    @GetMapping("/test/1")
+    public String test1() {
+
+        return "123";
+    }
+
+    @PostMapping("/test/2")
+    public String test2(@RequestBody Object o) {
+
+        System.out.println(o.toString());
+
+        return "456";
+    }
 }
