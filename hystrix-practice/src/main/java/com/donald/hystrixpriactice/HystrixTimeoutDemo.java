@@ -20,11 +20,11 @@ public class HystrixTimeoutDemo {
                 .run(args);
     }
 
-    @Bean
+    @Bean("TimeoutDemo")
     CommandLineRunner commandLineRunner() {
         return args -> {
-            int num = 1;
-            while (num <= 10) {
+            int num = 0;
+            while (num < 10) {
                 TimeoutRestCommand command = new TimeoutRestCommand(num);
                 System.err.println("Execute " + num + ": " + command.execute() + " and Circuit Breaker is " + (
                         command.isCircuitBreakerOpen() ? "open" : "closed"));

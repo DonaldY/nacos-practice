@@ -1,5 +1,6 @@
 package com.donald.hystrixpriactice;
 
+import com.donald.hystrixpriactice.command.CircuitBreakerRestCommand;
 import com.donald.hystrixpriactice.command.HelloWorldCommand;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
@@ -12,28 +13,29 @@ import org.springframework.context.annotation.Profile;
  * @author donald
  * @date 2021/09/03
  */
-@Profile("raw")
 @SpringBootApplication
 public class HystrixCircuitBreakerDemo {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder(HystrixCircuitBreakerDemo.class)
-                .properties("spring.profiles.active=raw").web(WebApplicationType.NONE)
+               .web(WebApplicationType.NONE)
                 .run(args);
     }
 
-    @Bean
+    @Bean("CircuitBreaker")
     CommandLineRunner commandLineRunner() {
         return args -> {
-            HelloWorldCommand helloWorld1 = new HelloWorldCommand("200");
-            HelloWorldCommand helloWorld2 = new HelloWorldCommand("500");
-            System.err.println(
-                    helloWorld1.execute() + " and Circuit Breaker is " + (helloWorld1.isCircuitBreakerOpen() ? "open"
-                            : "closed"));
-            System.err.println(
-                    helloWorld2.execute() + " and Circuit Breaker is " + (helloWorld2.isCircuitBreakerOpen() ? "open"
-                            : "closed"));
+            int num = 1;
+            while (num <= 15) {
+                CircuitBreakerRestCommand command = new CircuitBreakerRestCommand("500");
+                System.err.println("Execute " + num + ": " + command.execute() + " and Circuit Breaker is " + (
+                        command.isCircuitBreakerOpen() ? "open" : "closed"));
+                num++;
+            }
+            Thread.sleep(3000L);
+            CircuitBreakerRestCommand command = new CircuitBreakerRestCommand("200");
+            System.err.println("Execute " + num + ": " + command.execute() + " and Circuit Breaker is " + (
+                    command.isCircuitBreakerOpen() ? "open" : "closed"));
         };
     }
-
 }

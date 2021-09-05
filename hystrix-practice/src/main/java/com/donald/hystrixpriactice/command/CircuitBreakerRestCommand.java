@@ -16,6 +16,9 @@ public class CircuitBreakerRestCommand extends HystrixCommand<String> {
     private String code;
 
     public CircuitBreakerRestCommand(String code) {
+        // （withMetricsRollingStatisticalWindowInMilliseconds 方法，默认10s）
+        // 10s 内如果至少有 10 个请求，且其中有 10% 的异常比例，就会触发熔断器进入 open 状态。
+        // 3000ms，表示从 open 状态进入 Half-Open 状态的时间
         super(HystrixCommand.Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("CBRestExample"))
                 .andCommandPropertiesDefaults(
                         HystrixCommandProperties.Setter()
