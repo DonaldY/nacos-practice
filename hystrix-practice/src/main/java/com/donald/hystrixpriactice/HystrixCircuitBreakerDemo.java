@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Profile;
  * @author donald
  * @date 2021/09/03
  */
+@EnableHystrix
 @SpringBootApplication
 public class HystrixCircuitBreakerDemo {
 
