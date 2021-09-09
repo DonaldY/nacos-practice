@@ -1,8 +1,7 @@
-package com.donald.hystrixpriactice.command;
+package com.donald.hystrixpractice.command;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
-import com.netflix.hystrix.HystrixCommandProperties;
 import org.springframework.web.client.RestTemplate;
 
 /**

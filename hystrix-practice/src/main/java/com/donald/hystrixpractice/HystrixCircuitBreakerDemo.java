@@ -1,14 +1,12 @@
-package com.donald.hystrixpriactice;
+package com.donald.hystrixpractice;
 
-import com.donald.hystrixpriactice.command.CircuitBreakerRestCommand;
-import com.donald.hystrixpriactice.command.HelloWorldCommand;
+import com.donald.hystrixpractice.command.CircuitBreakerRestCommand;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Profile;
 
 /**
  * @author donald

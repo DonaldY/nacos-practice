@@ -1,4 +1,4 @@
-package com.donald.hystrixpriactice.command;
+package com.donald.hystrixpractice.command;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
@@ -22,8 +22,11 @@ public class CircuitBreakerRestCommand extends HystrixCommand<String> {
         super(HystrixCommand.Setter.withGroupKey(HystrixCommandGroupKey.Factory.asKey("CBRestExample"))
                 .andCommandPropertiesDefaults(
                         HystrixCommandProperties.Setter()
+                                // 当异常占比超过 10%
                                 .withCircuitBreakerErrorThresholdPercentage(10)
+                                // 10 秒时间窗口流量达到 10个
                                 .withCircuitBreakerRequestVolumeThreshold(10)
+                                // 断路器打开之后，后续请求都会被拒绝并走降级机制，打开 3 秒后，变成半开状态
                                 .withCircuitBreakerSleepWindowInMilliseconds(3000)
                         //.withMetricsRollingStatisticalWindowInMilliseconds(1000)
                 )

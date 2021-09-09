@@ -1,4 +1,4 @@
-package com.donald.hystrixpriactice;
+package com.donald.hystrixpractice;
 
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;

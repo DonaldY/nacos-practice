@@ -1,6 +1,6 @@
-package com.donald.hystrixpriactice;
+package com.donald.hystrixpractice;
 
-import com.donald.hystrixpriactice.command.TimeoutRestCommand;
+import com.donald.hystrixpractice.command.TimeoutRestCommand;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

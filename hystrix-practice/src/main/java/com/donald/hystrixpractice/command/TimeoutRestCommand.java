@@ -1,4 +1,4 @@
-package com.donald.hystrixpriactice.command;
+package com.donald.hystrixpractice.command;
 
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixCommandGroupKey;
