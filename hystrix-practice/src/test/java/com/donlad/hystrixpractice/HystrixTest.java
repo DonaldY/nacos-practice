@@ -3,6 +3,7 @@ package com.donlad.hystrixpractice;
 import com.donald.hystrixpractice.command.CircuitBreakerCommand;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -14,11 +15,12 @@ public class HystrixTest {
     @Test
     public void testCircuitBreaker() throws InterruptedException {
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 30; i++) {
             CircuitBreakerCommand circuitBreakerCommand = new CircuitBreakerCommand(i % 2);
-            TimeUnit.MILLISECONDS.toMillis(500);
+            TimeUnit.MILLISECONDS.sleep(200);
             System.out.println(i + " - " + circuitBreakerCommand.execute());
         }
+        System.out.println("流量 10 个，异常 50 % 达标：" + new Date());
         TimeUnit.SECONDS.sleep(3);
         System.out.println("3 秒之后，断路器变成半开状态，一个请求通过 ==============");
         CircuitBreakerCommand commandCircuit = new CircuitBreakerCommand(0);
