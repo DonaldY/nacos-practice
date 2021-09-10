@@ -1,9 +1,11 @@
 package com.donlad.hystrixpractice;
 
 import com.donald.hystrixpractice.command.CircuitBreakerCommand;
+import com.donald.hystrixpractice.command.LimitCommand;
 import org.junit.Test;
 
 import java.util.Date;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,5 +32,22 @@ public class HystrixTest {
             CircuitBreakerCommand c = new CircuitBreakerCommand(0);
             System.out.println(c.execute());
         }
+    }
+
+    @Test
+    public void test() throws InterruptedException {
+        int count = 13;
+        CountDownLatch downLatch = new CountDownLatch(count);
+        for (int i = 0; i < count; i++) {
+            int finalI = i;
+            new Thread(() -> {
+                LimitCommand commandLimit = new LimitCommand();
+                String execute = commandLimit.execute();
+                System.out.println(Thread.currentThread().getName() + " "
+                        + finalI + " : " + execute + "  :  " + new Date());
+                downLatch.countDown();
+            }).start();
+        }
+        downLatch.await();
     }
 }
