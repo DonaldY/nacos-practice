@@ -1,11 +1,18 @@
 package com.donlad.hystrixpractice;
 
 import com.donald.hystrixpractice.command.CircuitBreakerCommand;
+import com.donald.hystrixpractice.command.CommandCollapserGetValueForKey;
 import com.donald.hystrixpractice.command.LimitCommand;
+import com.netflix.hystrix.HystrixCommand;
+import com.netflix.hystrix.HystrixInvokableInfo;
+import com.netflix.hystrix.HystrixRequestLog;
+import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,5 +56,37 @@ public class HystrixTest {
             }).start();
         }
         downLatch.await();
+    }
+
+    @Test
+    public void testCollapser() throws Exception {
+        // 创建一个上下文
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+
+        try {
+
+            // 这里在一个线程中请求多次
+            Future<String> f1 = new CommandCollapserGetValueForKey(1).queue();
+            Future<String> f2 = new CommandCollapserGetValueForKey(2).queue();
+            Future<String> f3 = new CommandCollapserGetValueForKey(3).queue();
+            Future<String> f4 = new CommandCollapserGetValueForKey(4).queue();
+
+            System.out.println(f1.get());
+            System.out.println(f2.get());
+            System.out.println(f3.get());
+            System.out.println(f4.get());
+
+            HystrixRequestLog currentRequest = HystrixRequestLog.getCurrentRequest();
+            Collection<HystrixInvokableInfo<?>> allExecutedCommands = currentRequest.getAllExecutedCommands();
+            System.out.println("当前线程中请求实际发起了几次：" + allExecutedCommands.size());
+            HystrixCommand<?>[] hystrixCommands =
+                    allExecutedCommands.toArray(new HystrixCommand<?>[allExecutedCommands.size()]);
+            HystrixCommand<?> hystrixCommand = hystrixCommands[0];
+            System.out.println("其中第一个 command 的名称：" + hystrixCommand.getCommandKey());
+            System.out.println("command 执行事件" + hystrixCommand.getExecutionEvents());
+
+        } finally {
+            context.shutdown();
+        }
     }
 }
