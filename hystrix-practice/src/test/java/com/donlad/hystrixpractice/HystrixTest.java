@@ -3,6 +3,7 @@ package com.donlad.hystrixpractice;
 import com.donald.hystrixpractice.command.CircuitBreakerCommand;
 import com.donald.hystrixpractice.command.CommandCollapserGetValueForKey;
 import com.donald.hystrixpractice.command.LimitCommand;
+import com.donald.hystrixpractice.command.StubbedCommand;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixInvokableInfo;
 import com.netflix.hystrix.HystrixRequestLog;
@@ -11,6 +12,7 @@ import org.junit.Test;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -87,6 +89,15 @@ public class HystrixTest {
 
         } finally {
             context.shutdown();
+        }
+    }
+
+    @Test
+    public void testStubbed() {
+        StubbedCommand stubbedCommand = new StubbedCommand();
+        Iterator<Integer> iterator = stubbedCommand.observe().toBlocking().getIterator();
+        while (iterator.hasNext()) {
+            System.out.println("响应结果：" + iterator.next());
         }
     }
 }
