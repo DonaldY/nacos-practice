@@ -1,13 +1,12 @@
 package com.donlad.hystrixpractice;
 
-import com.donald.hystrixpractice.command.CircuitBreakerCommand;
-import com.donald.hystrixpractice.command.CommandCollapserGetValueForKey;
-import com.donald.hystrixpractice.command.LimitCommand;
-import com.donald.hystrixpractice.command.StubbedCommand;
+import com.donald.hystrixpractice.command.*;
+import com.netflix.config.ConfigurationManager;
 import com.netflix.hystrix.HystrixCommand;
 import com.netflix.hystrix.HystrixInvokableInfo;
 import com.netflix.hystrix.HystrixRequestLog;
 import com.netflix.hystrix.strategy.concurrency.HystrixRequestContext;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collection;
@@ -98,6 +97,34 @@ public class HystrixTest {
         Iterator<Integer> iterator = stubbedCommand.observe().toBlocking().getIterator();
         while (iterator.hasNext()) {
             System.out.println("响应结果：" + iterator.next());
+        }
+    }
+
+    @Test
+    public void testPrimary() {
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        try {
+            ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", true);
+            Assert.assertEquals("responseFromPrimary-20", new FacadeCommand(20).execute());
+
+            // 切换为使用备用
+            ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
+            Assert.assertEquals("responseFromSecondary-20", new FacadeCommand(20).execute());
+        } finally {
+            context.shutdown();
+            ConfigurationManager.getConfigInstance().clear();
+        }
+    }
+
+    @Test
+    public void testSecondary() {
+        HystrixRequestContext context = HystrixRequestContext.initializeContext();
+        try {
+            ConfigurationManager.getConfigInstance().setProperty("primarySecondary.usePrimary", false);
+            Assert.assertEquals("responseFromSecondary-20", new FacadeCommand(20).execute());
+        } finally {
+            context.shutdown();
+            ConfigurationManager.getConfigInstance().clear();
         }
     }
 }
