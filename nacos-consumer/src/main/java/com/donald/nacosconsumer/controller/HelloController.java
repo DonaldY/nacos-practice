@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
@@ -24,6 +25,11 @@ class HelloController {
     private RestTemplate restTemplate;
 
     private String serviceName = "my-provider";
+
+    @GetMapping("/")
+    public String echo(HttpServletRequest request) {
+        return request.getLocalAddr() + ":" + request.getLocalPort();
+    }
 
     @GetMapping("/info")
     public String info() {
