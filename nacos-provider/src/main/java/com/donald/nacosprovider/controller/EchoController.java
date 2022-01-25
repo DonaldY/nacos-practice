@@ -29,7 +29,7 @@ class EchoController {
 
     @GetMapping("/echo")
     public String echo(HttpServletRequest request) {
-        String serviceName = "nacos-consumer";
+        String serviceName = "192.168.199.174:8081";
 
         HttpHeaders headers = new HttpHeaders();
 
