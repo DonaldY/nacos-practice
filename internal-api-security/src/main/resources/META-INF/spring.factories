@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.donald.internalapisecurity.config.FeignInnerRequestInterceptor, \
+com.donald.internalapisecurity.config.InternalApiConfig
