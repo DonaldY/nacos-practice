@@ -61,4 +61,16 @@ class EchoController {
 
         return "send RefreshEvent";
     }
+
+    @GetMapping("/test/ok")
+    public String ok() {
+
+        return "";
+    }
+
+    @GetMapping("/test/error")
+    public String error() {
+
+        return "";
+    }
 }
