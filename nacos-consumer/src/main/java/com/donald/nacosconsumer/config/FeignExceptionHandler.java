@@ -1,5 +1,6 @@
 package com.donald.nacosconsumer.config;
 
+import com.donald.nacosconsumer.common.Response;
 import com.donald.nacosconsumer.utils.JsonUtils;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class FeignExceptionHandler {
     @ExceptionHandler(FeignException.class)
     @ResponseBody
-    public ResponseEntity<ExceptionResponse> handlePctException(FeignException exception) {
+    public ResponseEntity<Response> handlePctException(FeignException exception) {
         logger.debug("param error.", exception);
 
-        ExceptionResponse response  = JsonUtils.strToObject(exception.contentUTF8(), ExceptionResponse.class);
+        Response response  = JsonUtils.strToObject(exception.contentUTF8(), Response.class);
 
         return ResponseEntity.status(exception.status())
                 .body(response);

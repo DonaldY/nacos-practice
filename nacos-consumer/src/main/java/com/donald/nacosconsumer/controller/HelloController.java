@@ -1,5 +1,6 @@
 package com.donald.nacosconsumer.controller;
 
+import com.donald.nacosconsumer.common.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -23,6 +24,9 @@ class HelloController {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private ProviderClient providerClient;
 
     private String serviceName = "my-provider";
 
@@ -88,5 +92,21 @@ class HelloController {
         System.out.println(o.toString());
 
         return "456";
+    }
+
+    @GetMapping("/test/ok")
+    public void testOk() {
+
+        Response response = providerClient.ok();
+
+        System.out.println(response.toString());
+    }
+
+    @GetMapping("/test/error")
+    public void testError() {
+
+        Response response = providerClient.error();
+
+        System.out.println(response.toString());
     }
 }
