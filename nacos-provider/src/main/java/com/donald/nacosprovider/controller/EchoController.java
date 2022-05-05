@@ -1,12 +1,11 @@
 package com.donald.nacosprovider.controller;
 
+import com.donald.nacosprovider.common.Response;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.endpoint.event.RefreshEvent;
 import org.springframework.context.ApplicationContext;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -63,14 +62,24 @@ class EchoController {
     }
 
     @GetMapping("/test/ok")
-    public String ok() {
+    public ResponseEntity<Response> ok() {
 
-        return "";
+        Response response = Response.success();
+
+        System.out.println(response.toString());
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(response);
     }
 
     @GetMapping("/test/error")
-    public String error() {
+    public ResponseEntity<Response> error() {
 
-        return "";
+        Response response = new Response(123, "error 123");
+
+        System.out.println(response.toString());
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(response);
     }
 }

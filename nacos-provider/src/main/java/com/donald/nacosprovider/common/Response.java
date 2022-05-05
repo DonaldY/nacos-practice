@@ -1,4 +1,4 @@
-package com.donald.nacosconsumer.common;
+package com.donald.nacosprovider.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -32,7 +32,7 @@ public class Response<T> implements Serializable {
      */
     private T data;
 
-    private Response(int code, String msg) {
+    public Response(int code, String msg) {
         this.code = code;
         this.msg = msg;
     }
