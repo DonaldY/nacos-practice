@@ -1,4 +1,4 @@
-package com.donald.txmsgorder.config;
+package com.donald.txnotifymsgpay.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
