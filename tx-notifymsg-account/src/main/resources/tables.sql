@@ -1,7 +1,7 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-CREATE DATABASE tx_notifymsg_pay;
+CREATE DATABASE tx_notifymsg_account;
 
 -- ----------------------------
 -- Table structure for account_info
