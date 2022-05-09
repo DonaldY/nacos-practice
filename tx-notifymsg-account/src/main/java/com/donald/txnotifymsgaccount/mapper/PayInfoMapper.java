@@ -17,7 +17,7 @@ public interface PayInfoMapper {
     /**
      * 保存充值记录
      */
-    int savePayInfo(@Param("payInfo") PayInfo payInfo);
+    Integer savePayInfo(@Param("payInfo") PayInfo payInfo);
 
     /**
      * 查询指定的充值信息
