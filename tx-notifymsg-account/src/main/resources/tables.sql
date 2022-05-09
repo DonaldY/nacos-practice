@@ -1,6 +1,8 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+CREATE DATABASE tx_notifymsg_pay;
+
 -- ----------------------------
 -- Table structure for account_info
 -- ----------------------------
@@ -16,7 +18,7 @@ CREATE TABLE `account_info`  (
 -- ----------------------------
 -- Records of account_info
 -- ----------------------------
-INSERT INTO `account_info` VALUES (1001, '1001', '冰河', 1000.00);
+INSERT INTO `account_info` VALUES (1001, '1001', 'yyf', 1000.00);
 
 -- ----------------------------
 -- Table structure for pay_info
