@@ -31,12 +31,12 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    public JdbcTemplate primaryJdbcTemplate(@Qualifier("primaryDataSource") DataSource primaryDataSource) {
+    public JdbcTemplate orderJdbcTemplate(@Qualifier("primaryDataSource") DataSource primaryDataSource) {
         return new JdbcTemplate(primaryDataSource);
     }
 
     @Bean
-    public JdbcTemplate secondaryJdbcTemplate(@Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
+    public JdbcTemplate stockJdbcTemplate(@Qualifier("secondaryDataSource") DataSource secondaryDataSource) {
         return new JdbcTemplate(secondaryDataSource);
     }
 
